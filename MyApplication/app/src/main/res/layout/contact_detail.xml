@@ -4,17 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/image_dt"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="@dimen/std_mrg"
-        android:layout_marginTop="@dimen/std_mrg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_dt"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name_dt"
@@ -28,27 +30,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_dt"
             app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:id="@+id/nmb_dt_1_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/std_mrg"
-        android:layout_marginTop="@dimen/std_mrg"
-        android:text="@string/phone_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_dt" />
-    <TextView
-        android:id="@+id/nmb_dt_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/std_mrg"
-        android:layout_marginTop="@dimen/std_mrg"
-        android:layout_marginEnd="@dimen/std_mrg"
-        android:gravity="start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/nmb_dt_1_title"
-        app:layout_constraintTop_toBottomOf="@+id/image_dt" />
+
+
+        <TextView
+            android:id="@+id/nmb_dt_1_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
+            android:text="@string/phone_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_dt" />
+
+        <TextView
+            android:id="@+id/nmb_dt_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
+            android:layout_marginEnd="@dimen/std_mrg"
+            android:gravity="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/nmb_dt_1_title"
+            app:layout_constraintTop_toBottomOf="@+id/image_dt" />
 
         <TextView
             android:id="@+id/nmb_dt_2_title"
@@ -59,18 +64,19 @@
             android:text="@string/phone_number_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nmb_dt_1_title" />
-    <TextView
-        android:id="@+id/nmb_dt_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/std_mrg"
-        android:layout_marginTop="@dimen/std_mrg"
-        android:layout_marginEnd="@dimen/std_mrg"
-        android:gravity="start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/nmb_dt_2_title"
-        app:layout_constraintTop_toBottomOf="@+id/nmb_dt_1" />
+
+        <TextView
+            android:id="@+id/nmb_dt_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
+            android:layout_marginEnd="@dimen/std_mrg"
+            android:gravity="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/nmb_dt_2_title"
+            app:layout_constraintTop_toBottomOf="@+id/nmb_dt_1" />
 
         <TextView
             android:id="@+id/eml_dt_1_title"
@@ -104,18 +110,19 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/eml_dt_1_title"
             app:layout_constraintTop_toBottomOf="@+id/nmb_dt_2_title" />
-    <TextView
-        android:id="@+id/eml_dt_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/std_mrg"
-        android:layout_marginTop="@dimen/std_mrg"
-        android:layout_marginEnd="@dimen/std_mrg"
-        android:gravity="start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/eml_dt_2_title"
-        app:layout_constraintTop_toBottomOf="@+id/eml_dt_1" />
+
+        <TextView
+            android:id="@+id/eml_dt_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
+            android:layout_marginEnd="@dimen/std_mrg"
+            android:gravity="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/eml_dt_2_title"
+            app:layout_constraintTop_toBottomOf="@+id/eml_dt_1" />
 
         <TextView
             android:id="@+id/description_title"
@@ -132,6 +139,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/std_mrg"
+            android:layout_marginTop="@dimen/std_mrg"
             android:gravity="start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
