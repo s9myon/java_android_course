@@ -28,8 +28,8 @@ public class ContactDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.contact_detail, container, false);
 
         int contactId = this.getArguments().getInt("contactId");
-        ImageView contactImage = (ImageView) view.findViewById(R.id.image_detail);
-        TextView contactName = (TextView) view.findViewById(R.id.name_detail);
+        ImageView contactImage = (ImageView) view.findViewById(R.id.image_dt);
+        TextView contactName = (TextView) view.findViewById(R.id.name_dt);
         TextView contactNumber = (TextView) view.findViewById(R.id.nmb_dt_1);
         TextView contactNumber2 = (TextView) view.findViewById(R.id.nmb_dt_2);
         TextView contactEmail = (TextView) view.findViewById(R.id.eml_dt_1);

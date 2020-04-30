@@ -1,13 +1,13 @@
 package com.gmail.shudss00.myapplication;
 
 class Contact {
-    private String name;
-    private String number;
-    private int image;
-    private String email;
-    private String description;
-    private String number2;
-    private String email2;
+    final private String name;
+    final private String number;
+    final private int image;
+    final private String email;
+    final private String description;
+    final private String number2;
+    final private String email2;
 
     static final Contact[] contacts = {
             new Contact("Вася", "88005353535", R.mipmap.ic_launcher_round,
