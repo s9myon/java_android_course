@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Контакты</string>
+    <string name="phone_number">номер 1: </string>
+    <string name="phone_number_2">номер 2: </string>
+    <string name="e_mail">email 1: </string>
+    <string name="e_mail_2">email 2: </string>
+    <string name="description">описание: </string>
+    <string name="btn">добавить номер</string>
+    <string name="btn2">добавить email</string>
 </resources>
