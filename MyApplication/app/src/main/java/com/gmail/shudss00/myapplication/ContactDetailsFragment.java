@@ -18,6 +18,9 @@ public class ContactDetailsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
     //  LayoutInflater используется для установки ресурса разметки для создания интерфейса
     //  ViewGroup container устанавливает контейнер интерфейса
     //  Bundle savedInstanceState передает ранее сохраненное состояние
@@ -27,7 +30,6 @@ public class ContactDetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.contact_detail, container, false);
 
-        int contactId = this.getArguments().getInt("contactId");
         ImageView contactImage = (ImageView) view.findViewById(R.id.image_dt);
         TextView contactName = (TextView) view.findViewById(R.id.name_dt);
         TextView contactNumber = (TextView) view.findViewById(R.id.nmb_dt_1);
@@ -36,6 +38,7 @@ public class ContactDetailsFragment extends Fragment {
         TextView contactEmail2 = (TextView) view.findViewById(R.id.eml_dt_2);
         TextView contactDescr = (TextView) view.findViewById(R.id.description);
 
+        int contactId = this.getArguments().getInt("contactId");
         Contact curContact = Contact.contacts[contactId];
 
         contactImage.setImageResource(curContact.getImage());
