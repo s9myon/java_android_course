@@ -13,10 +13,12 @@ import android.widget.TextView;
 import androidx.fragment.app.ListFragment;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.ExecutionException;
 
 public class ContactListFragment extends ListFragment {
     private ContactService.ResultListener contactService;
     private ContactService mService;
+    private ContactService.ContactBinder contactBinder;
 
     static ContactListFragment newInstance(IBinder binder) {
         ContactListFragment fragment = new ContactListFragment();
@@ -24,6 +26,14 @@ public class ContactListFragment extends ListFragment {
         args.putBinder("binder", binder);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_list, ContactDetailsFragment.newInstance(position, contactBinder))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -46,8 +56,7 @@ public class ContactListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         getActivity().setTitle("Список контактов");
-        ContactService.ContactBinder contactBinder =
-                (ContactService.ContactBinder) getArguments().getBinder("binder");
+        contactBinder = (ContactService.ContactBinder) getArguments().getBinder("binder");
         mService = contactBinder.getService();
 
         ArrayAdapter<Contact> contactAdapter = new ArrayAdapter<Contact>(getActivity(), 0, Contact.contacts) {
@@ -62,14 +71,17 @@ public class ContactListFragment extends ListFragment {
                 TextView numberView = convertView.findViewById(R.id.contact_number);
                 ImageView imageView = convertView.findViewById(R.id.contact_image);
 
-                mService.getContacts(contactService);
 
-//                Contact curContact = Contact.contacts[contactId];
-//                Contact currentContact = Contact.contacts[position];
-//
-//                nameView.setText(currentContact.getName());
-//                numberView.setText(currentContact.getNumber());
-//                imageView.setImageResource(currentContact.getImage());
+                Contact currentContact = null;
+                try {
+                    currentContact = mService.getContacts(contactService)[position];
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                nameView.setText(currentContact.getName());
+                numberView.setText(currentContact.getNumber());
+                imageView.setImageResource(currentContact.getImage());
 
                 return convertView;
             }
@@ -79,11 +91,4 @@ public class ContactListFragment extends ListFragment {
     }
 
 
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_list, ContactDetailsFragment.newInstance(position))
-                .addToBackStack(null)
-                .commit();
-    }
 }
