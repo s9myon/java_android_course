@@ -9,16 +9,16 @@ import android.os.IBinder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements ContactService.ResultListener {
-    ContactService mService;
-    ServiceConnection mConnection;
-    boolean mBound = false;
+public class MainActivity extends AppCompatActivity implements ServiceInterface {
+    private ContactService mService;
+    private ServiceConnection mConnection;
+    private boolean mBound = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // позволяет определить когда сервис подключён
         mConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -27,13 +27,12 @@ public class MainActivity extends AppCompatActivity implements ContactService.Re
                 mService = contactBinder.getService();
                 mBound = true;
                 if(savedInstanceState == null) {
-                    new ContactListFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragment_list, ContactListFragment.newInstance(binder))
+                            .add(R.id.fragment_list, new ContactListFragment())
                             .commit();
                 }
             }
-
+            // срабатывает при потере связи
             @Override
             public void onServiceDisconnected(ComponentName className) {
                 mBound = false;
@@ -55,15 +54,10 @@ public class MainActivity extends AppCompatActivity implements ContactService.Re
             mService = null;
         }
     }
-
+    // передаёт экземпляр сервиса
     @Override
-    public Contact[] getContactsCallback(Contact[] contacts) {
-        return contacts;
-    }
-
-    @Override
-    public Contact getContactByIdCallback(int id, Contact[] contacts) {
-        return contacts[id];
+    public ContactService getService() {
+        return mService;
     }
 
 }

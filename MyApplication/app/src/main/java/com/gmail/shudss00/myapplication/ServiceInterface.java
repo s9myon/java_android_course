@@ -1,4 +1,5 @@
 package com.gmail.shudss00.myapplication;
 
-public class ServiceInterface {
+public interface ServiceInterface {
+    ContactService getService();
 }

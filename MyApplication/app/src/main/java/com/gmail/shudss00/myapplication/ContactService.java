@@ -45,66 +45,43 @@ public class ContactService extends Service {
         return super.onUnbind(intent);
     }
 
-
-    public interface ResultListener {
-        public Contact[] getContactsCallback(Contact[] contacts);
-        public Contact getContactByIdCallback(int id, Contact[] contacts);
-    }
-
     // методы для клиента
     // метод получения списка контактов с короткой информацией(асинхронный)
-    public Contact[] getContacts(ResultListener callback) throws ExecutionException, InterruptedException {
+    public void getContacts(ContactListFragment.ResultListener callback) {
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        final WeakReference<ResultListener> ref = new WeakReference<>(callback);
-        Callable<Contact[]> callable = new CallableForContacts(ref);
-        Future<Contact[]> future = executor.submit(callable);
-        executor.shutdown();
-        return future.get();
-    }
+        final WeakReference<ContactListFragment.ResultListener> ref =
+                new WeakReference<>(callback);
+        executor.execute(new Runnable() {
+            public void run() {
+                Contact[] contacts = Contact.contacts;
 
-    static class CallableForContacts implements Callable<Contact[]> {
-        final WeakReference<ResultListener> ref;
-        CallableForContacts(WeakReference<ResultListener> callback) {
-            this.ref = callback;
-        }
-        @Override
-        public Contact[] call() throws Exception {
-            Contact[] contacts = Contact.contacts;
-            Contact[] result = null;
-            ResultListener local = ref.get();
-            if (local != null) {
-                result = local.getContactsCallback(contacts);
+                ContactListFragment.ResultListener local = ref.get();
+                if(local != null) {
+                    local.onComplete(contacts);
+                }
             }
-            return result;
-        }
+        });
+        executor.shutdown();
     }
 
     // метод получения контактa с подробной информацией(асинхронный)
-    public Contact getContactById(final int id, ResultListener callback) throws ExecutionException, InterruptedException {
+    public void getContactById(final int id, ContactDetailsFragment.ResultListener callback) {
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        final WeakReference<ResultListener> ref = new WeakReference<>(callback);
-        Callable<Contact> callable = new CallableForContactById(id, ref);
-        Future<Contact> future = executor.submit(callable);
-        executor.shutdown();
-        return future.get();
-    }
-    static class CallableForContactById implements Callable<Contact> {
-        final int id;
-        final WeakReference<ResultListener> ref;
-        CallableForContactById(int id, WeakReference<ResultListener> callback) {
-            this.id = id;
-            this.ref = callback;
-        }
-        @Override
-        public Contact call() throws Exception {
-            Contact[] contacts = Contact.contacts;
-            Contact result = null;
-            ResultListener local = ref.get();
-            if (local != null) {
-                result = local.getContactByIdCallback(id, contacts);
+        final WeakReference<ContactDetailsFragment.ResultListener> ref =
+                new WeakReference<>(callback);
+        final int contactId = id;
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Contact contact = Contact.contacts[contactId];
+
+                ContactDetailsFragment.ResultListener local = ref.get();
+                if(local != null) {
+                    local.onComplete(contact);
+                }
             }
-            return result;
-        }
+        });
+
     }
 
 }

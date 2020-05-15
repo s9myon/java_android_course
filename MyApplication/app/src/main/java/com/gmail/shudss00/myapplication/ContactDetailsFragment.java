@@ -15,13 +15,19 @@ import java.util.concurrent.ExecutionException;
 
 public class ContactDetailsFragment extends Fragment {
     private ContactService mService;
-    private ContactService.ResultListener contactService;
+    private View view;
+    private ImageView contactImage;
+    private TextView contactName;
+    private TextView contactNumber;
+    private TextView contactNumber2;
+    private TextView contactEmail;
+    private TextView contactEmail2;
+    private TextView contactDescription;
 
-    static ContactDetailsFragment newInstance(int contactId, IBinder binder) {
+    static ContactDetailsFragment newInstance(int contactId) {
         ContactDetailsFragment fragment = new ContactDetailsFragment();
         Bundle args = new Bundle();
         args.putInt("contactId", contactId);
-        args.putBinder("binder", binder);
         fragment.setArguments(args);
         return fragment;
     }
@@ -29,15 +35,16 @@ public class ContactDetailsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof ContactService.ResultListener) {
-            contactService = (ContactService.ResultListener) context;
+        if(context instanceof ServiceInterface) {
+            mService = ((ServiceInterface) context).getService();
         }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        contactService = null;
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().setTitle("Список контактов");
+        view = null;
     }
 
     //  LayoutInflater используется для установки ресурса разметки для создания интерфейса
@@ -46,43 +53,46 @@ public class ContactDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle("Контакт");
-        ContactService.ContactBinder contactBinder =
-                (ContactService.ContactBinder) getArguments().getBinder("binder");
-        mService = contactBinder.getService();
+        view = inflater.inflate(R.layout.contact_detail, container, false);
 
-        View view = inflater.inflate(R.layout.contact_detail, container, false);
+        contactImage = (ImageView) view.findViewById(R.id.image_dt);
+        contactName = (TextView) view.findViewById(R.id.name_dt);
+        contactNumber = (TextView) view.findViewById(R.id.nmb_dt_1);
+        contactNumber2 = (TextView) view.findViewById(R.id.nmb_dt_2);
+        contactEmail = (TextView) view.findViewById(R.id.eml_dt_1);
+        contactEmail2 = (TextView) view.findViewById(R.id.eml_dt_2);
+        contactDescription = (TextView) view.findViewById(R.id.description);
 
         int contactId = this.getArguments().getInt("contactId");
-        ImageView contactImage = (ImageView) view.findViewById(R.id.image_dt);
-        TextView contactName = (TextView) view.findViewById(R.id.name_dt);
-        TextView contactNumber = (TextView) view.findViewById(R.id.nmb_dt_1);
-        TextView contactNumber2 = (TextView) view.findViewById(R.id.nmb_dt_2);
-        TextView contactEmail = (TextView) view.findViewById(R.id.eml_dt_1);
-        TextView contactEmail2 = (TextView) view.findViewById(R.id.eml_dt_2);
-        TextView contactDescr = (TextView) view.findViewById(R.id.description);
+        mService.getContactById(contactId, callback);
 
-        Contact currentContact = null;
-        try {
-            currentContact = mService.getContactById(contactId, contactService);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        contactImage.setImageResource(currentContact.getImage());
-        contactName.setText(currentContact.getName());
-        contactNumber.setText(currentContact.getNumber());
-        contactNumber2.setText(currentContact.getNumber2());
-        contactEmail.setText(currentContact.getEmail());
-        contactEmail2.setText(currentContact.getEmail2());
-        contactDescr.setText(currentContact.getDescription());
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().setTitle("Список контактов");
-
+    public interface ResultListener {
+        void onComplete(Contact result);
     }
+
+    private ResultListener callback = new ResultListener() {
+        @Override
+        public void onComplete(Contact result) {
+            final Contact currentContact = result;
+            if (view != null) {
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        contactImage.setImageResource(currentContact.getImage());
+                        contactName.setText(currentContact.getName());
+                        contactNumber.setText(currentContact.getNumber());
+                        contactNumber2.setText(currentContact.getNumber2());
+                        contactEmail.setText(currentContact.getEmail());
+                        contactEmail2.setText(currentContact.getEmail2());
+                        contactDescription.setText(currentContact.getDescription());
+                    }
+                });
+            }
+        }
+    };
+
 }
 
