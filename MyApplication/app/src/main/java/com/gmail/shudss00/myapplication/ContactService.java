@@ -6,14 +6,12 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class ContactService extends Service {
     private IBinder mBinder;
+    ExecutorService executor = Executors.newFixedThreadPool(1);
 
     public class ContactBinder extends Binder {
         ContactService getService() {
@@ -48,7 +46,6 @@ public class ContactService extends Service {
     // методы для клиента
     // метод получения списка контактов с короткой информацией(асинхронный)
     public void getContacts(ContactListFragment.ResultListener callback) {
-        ExecutorService executor = Executors.newFixedThreadPool(1);
         final WeakReference<ContactListFragment.ResultListener> ref =
                 new WeakReference<>(callback);
         executor.execute(new Runnable() {
@@ -61,12 +58,10 @@ public class ContactService extends Service {
                 }
             }
         });
-        executor.shutdown();
     }
 
     // метод получения контактa с подробной информацией(асинхронный)
     public void getContactById(final int id, ContactDetailsFragment.ResultListener callback) {
-        ExecutorService executor = Executors.newFixedThreadPool(1);
         final WeakReference<ContactDetailsFragment.ResultListener> ref =
                 new WeakReference<>(callback);
         final int contactId = id;

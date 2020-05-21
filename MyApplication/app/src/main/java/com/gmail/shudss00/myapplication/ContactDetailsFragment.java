@@ -3,15 +3,12 @@ package com.gmail.shudss00.myapplication;
 import android.os.Bundle;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-
-import java.util.concurrent.ExecutionException;
 
 public class ContactDetailsFragment extends Fragment {
     private ContactService mService;
@@ -45,6 +42,13 @@ public class ContactDetailsFragment extends Fragment {
         super.onDestroyView();
         getActivity().setTitle("Список контактов");
         view = null;
+        contactImage = null;
+        contactName = null;
+        contactNumber = null;
+        contactNumber2 = null;
+        contactEmail = null;
+        contactEmail2 = null;
+        contactDescription = null;
     }
 
     //  LayoutInflater используется для установки ресурса разметки для создания интерфейса
@@ -81,13 +85,27 @@ public class ContactDetailsFragment extends Fragment {
                 view.post(new Runnable() {
                     @Override
                     public void run() {
-                        contactImage.setImageResource(currentContact.getImage());
-                        contactName.setText(currentContact.getName());
-                        contactNumber.setText(currentContact.getNumber());
-                        contactNumber2.setText(currentContact.getNumber2());
-                        contactEmail.setText(currentContact.getEmail());
-                        contactEmail2.setText(currentContact.getEmail2());
-                        contactDescription.setText(currentContact.getDescription());
+                        if (contactImage != null) {
+                            contactImage.setImageResource(currentContact.getImage());
+                        }
+                        if (contactName != null) {
+                            contactName.setText(currentContact.getName());
+                        }
+                        if (contactNumber != null) {
+                            contactNumber.setText(currentContact.getNumber());
+                        }
+                        if (contactNumber2 != null) {
+                            contactNumber2.setText(currentContact.getNumber2());
+                        }
+                        if (contactEmail != null) {
+                            contactEmail.setText(currentContact.getEmail());
+                        }
+                        if (contactEmail2 != null) {
+                            contactEmail2.setText(currentContact.getEmail2());
+                        }
+                        if (contactDescription != null) {
+                            contactDescription.setText(currentContact.getDescription());
+                        }
                     }
                 });
             }
